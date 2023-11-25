@@ -40,7 +40,9 @@ app.get('/api/tasks', async (req, res) => {
 });
 
 app.delete('/api/tasks/:taskId', async (req, res) => {
+    console.log("del")
     const taskId = req.params.taskId;
+    console.log(taskId)
     try {
         const deletedTask = await Task.findByIdAndDelete(taskId); // Use the appropriate Mongoose method
         if (deletedTask) {

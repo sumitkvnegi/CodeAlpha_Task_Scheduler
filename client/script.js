@@ -1,4 +1,4 @@
-import {apiKey,domain} from "./api"; 
+import {apiKey,domain} from "./api.js"; 
 const addTaskForm = document.getElementById("add-task-form");
 const list = document.getElementById("list");
 
@@ -67,11 +67,10 @@ async function getAllTasks() {
 
         const li = document.createElement("li");
         li.innerHTML = `
-                <h3>${task.title}</h3>
+                <div class="head"><h3>${task.title}</h3><button class="delete-button"><img src="./trash.svg" alt="" ></button></div>
+                <div class="date-email"><p>Due Date: ${dateTime}</p>
+                <p>${task.email}</p></div>
                 <p>${task.description}</p>
-                <p>${task.email}</p>
-                <p>Due Date: ${dateTime}</p>
-                <button class="delete-button">Delete</button>
     `;
 
         li.dataset.id = task._id;
@@ -93,10 +92,9 @@ async function getAllTasks() {
 
 list.addEventListener("click", function (e) {
   if (e.target.classList.contains("delete-button")) {
-    const element = e.target.parentNode;
-    const id = element.getAttribute("data-id");
-    console.log(element);
-    console.log(id);
+    const element = e.target.parentNode.parentNode;
+    const id = element.dataset.id; // Accessing the "data-id" attribute
+    console.log("Clicked ID:", id); // Log the ID to check its value
     deleteTask(id);
     removeTaskFromUI(id);
   }
@@ -104,10 +102,14 @@ list.addEventListener("click", function (e) {
 
 // Perform a DELETE request to remove a upcoming task from the list
 async function deleteTask(taskId) {
+  console.log(taskId)
   try {
     const response = await fetch(`http://localhost:3000/api/tasks/${taskId}`, {
       method: "DELETE",
     });
+
+    console.log("Delete Task Response:", response.status);
+
     if (response.status === 200) {
       console.log("Task deleted successfully.");
       // You can update the UI or take further actions as needed.
@@ -122,11 +124,16 @@ async function deleteTask(taskId) {
 }
 
 function removeTaskFromUI(taskId) {
-  const taskElement = document.querySelector(`[data-id="${taskId}"]`);
-  if (taskElement) {
-    taskElement.remove();
-    console.log(`Task with ID ${taskId} removed from the UI.`);
+  function removeTaskFromUI(taskId) {
+    const taskElement = document.querySelector(`[data-id="${taskId}"]`);
+    if (taskElement) {
+      taskElement.remove();
+      console.log(`Task with ID ${taskId} removed from the UI.`);
+    } else {
+      console.log(`Task with ID ${taskId} not found in the UI.`);
+    }
   }
+  
 }
 
 function reloadPage() {

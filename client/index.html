@@ -14,18 +14,19 @@
         <div id="task-form">
             <h2>Add a New Task</h2>
             <form id="add-task-form">
-                <input type="text" id="task-title" placeholder="Title" required>
-                <textarea id="task-description" rows="4" placeholder="Description"></textarea>
-                <input type="email" id="task-email" placeholder="Receiver Email" required>
+                <div>
+                    <input type="text" id="task-title" placeholder="task title" required>
+                <input type="email" id="task-email" placeholder="@receiver.com" required>
+                </div>
+                <textarea id="task-description" rows="4" placeholder="describe task ..."></textarea>
                 <input type="date" id="task-due-date" required>
                 <input type="time" id="task-due-time" required>
-                <button type="submit">Add Task</button>
+                <button type="submit"><img src="./paper-plane.svg" alt="icon"></button>
             </form>
         </div>
         <div id="task-list">
             <h2>Upcoming Tasks</h2>
             <ul id="list">
-                <!-- Tasks will be dynamically added here -->
             </ul>
         </div>
     </main>
